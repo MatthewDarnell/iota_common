@@ -22,12 +22,13 @@ if (NOT __KECCAK_INCLUDED)
     # LOG_DOWNLOAD 1
   )
 
+  set(keccak_cmakefile ${PROJECT_BINARY_DIR}/keccak/CMakeLists.txt)
   set(keccak_cmake_dir ${PROJECT_BINARY_DIR}/keccak/src/keccak_download)
   set(keccak_src_dir ".")
   set(keccak_install_include ${CMAKE_INSTALL_PREFIX}/include/keccak)
   set(keccak_install_lib ${CMAKE_INSTALL_PREFIX}/lib)
 
-  file(WRITE ${keccak_cmake_dir}/CMakeLists.txt
+  file(WRITE ${keccak_cmakefile}
     "cmake_minimum_required(VERSION 3.5)\n"
     "project(keccak C)\n"
     "set(my_src ${keccak_src_dir}/lib/low/KeccakP-1600/Reference/KeccakP-1600-reference.c\n"
@@ -49,7 +50,7 @@ if (NOT __KECCAK_INCLUDED)
     ext_keccak
     SOURCE_DIR ${keccak_cmake_dir}
     PREFIX ${PROJECT_BINARY_DIR}/keccak
-    DOWNLOAD_COMMAND ""
+    DOWNLOAD_COMMAND ${CMAKE_COMMAND} -E copy ${keccak_cmakefile} ${keccak_cmake_dir}/CMakeLists.txt
    # BUILD_IN_SOURCE TRUE
     CMAKE_ARGS
       -DCMAKE_INSTALL_PREFIX:STRING=${CMAKE_INSTALL_PREFIX}
